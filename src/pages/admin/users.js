@@ -47,7 +47,7 @@ const UserForm = ({ onChange, user }) => (
   </tr>
 )
 
-const User = ({ user }) => (
+const User = ({ deleteUser, user }) => (
   <tr>
     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
       <div class="flex items-center">
@@ -63,7 +63,7 @@ const User = ({ user }) => (
       {user.share}%
     </td>
     <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-      <a href="#" class="text-red-600 hover:text-red-900">
+      <a href="#" class="text-red-600 hover:text-red-900" onClick={() => deleteUser(user.id) }>
         Delete
       </a>
     </td>
@@ -82,7 +82,10 @@ const AdminUsersPage = () => {
       setUsers(usersJson)
     }
 
-    fetchUsers()
+    // fetchUsers()
+
+    const stubUsers = {"fa4e46ed-1820-4a46-87b8-35b02da222bb":{"id":"fa4e46ed-1820-4a46-87b8-35b02da222bb","name":"@signalnerve","wallet":"$signalnerve.com","share":50},"0bf0fca6-4780-4314-97ef-e858dd42c047":{"id":"0bf0fca6-4780-4314-97ef-e858dd42c047","name":"@foobar","wallet":"$foo.com","share":50}}
+    setUsers(stubUsers)
   }, [])
 
   const userKeys = Object.keys(users)
@@ -105,11 +108,36 @@ const AdminUsersPage = () => {
     setEditedUsers(newUsers)
   }
 
+  const deleteUser = async key => {
+    const user = users[key]
+
+    if (window.confirm(`Do you really want to remove ${user.name}'s wallet?`)) {
+      const usersWithout = {}
+
+      Object.keys(users).map(user => {
+        if (users[user].id !== key) {
+          usersWithout[key] = users[key]
+        }
+      })
+
+      try {
+        await fetch("/admin/users", {
+          method: "POST",
+          body: JSON.stringify(usersWithout),
+        })
+      } catch (err) {
+        console.log(err)
+      }
+
+      setUsers(usersWithout)
+    }
+  }
+
   const save = async evt => {
     evt.preventDefault()
 
     try {
-      await fetch("http://localhost:8787/admin/users", {
+      await fetch("/admin/users", {
         method: "POST",
         body: JSON.stringify(editedUsers),
       })
@@ -177,7 +205,13 @@ const AdminUsersPage = () => {
                         user={editedUsers[key]}
                       />
                     ))
-                  : userKeys.map(key => <User key={key} user={users[key]} />)}
+                  : userKeys.map(key =>
+                      <User
+                        deleteUser={deleteUser.bind(this)}
+                        key={key}
+                        user={users[key]}
+                      />
+                    )}
               </tbody>
             </table>
           </div>
