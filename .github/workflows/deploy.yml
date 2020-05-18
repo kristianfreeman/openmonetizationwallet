@@ -1,0 +1,21 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v2
+      - name: Yarn install
+        run: 'yarn install'
+      - name: Build app
+        run: 'yarn run gatsby:build'
+      - name: Publish
+        uses: cloudflare/wrangler-action@master
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
