@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react"
 
 import { Link } from "gatsby"
 
+import Log from "../../components/log"
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
-
-import { DateTime } from "luxon"
 
 const AdminLogsPage = () => {
   const [logs, setLogs] = useState([])
@@ -30,16 +29,32 @@ const AdminLogsPage = () => {
         </div>
       </header>
 
-      {logs
-        .sort((log1, log2) => log1.timestamp < log2.timestamp)
-        .map(log => (
-          <div key={log.timestamp}>
-            {DateTime.fromMillis(log.timestamp).toLocaleString(
-              DateTime.DATETIME_SHORT
-            )}{" "}
-            / {log.referer} / {log.wallet}
+      <div class="flex flex-col py-6">
+        <div class="-my-2 py-2">
+          <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+            <table class="min-w-full">
+              <thead>
+                <tr>
+                  <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Time
+                  </th>
+                  <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Referrer
+                  </th>
+                  <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    Wallet
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                {logs
+                  .sort((log1, log2) => log1.timestamp < log2.timestamp)
+                  .map(log => <Log log={log} />)}
+              </tbody>
+            </table>
           </div>
-        ))}
+        </div>
+      </div>
     </Layout>
   )
 }
