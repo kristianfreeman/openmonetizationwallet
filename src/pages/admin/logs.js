@@ -11,7 +11,7 @@ const AdminLogsPage = () => {
   const [logs, setLogs] = useState([])
   useEffect(() => {
     const fetchLogs = async () => {
-      const resp = await fetch("http://localhost:8787/api/logs")
+      const resp = await fetch("/api/logs")
       const logsJson = await resp.json()
       setLogs(logsJson)
     }

@@ -77,7 +77,7 @@ const AdminUsersPage = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const resp = await fetch("http://localhost:8787/api/users")
+      const resp = await fetch("/api/users")
       const usersJson = await resp.json()
       setUsers(usersJson)
     }
