@@ -7,11 +7,8 @@ import SEO from "../components/seo"
 
 const AdminPage = () => (
   <Layout>
-    <SEO title="Admin" />
-    <h1>Admin</h1>
-
-    <Link to="/admin/users">Users</Link>
-    <Link to="/admin/logs">Logs</Link>
+    <SEO title="Dashboard" />
+    <h1>Dashboard</h1>
   </Layout>
 )
 

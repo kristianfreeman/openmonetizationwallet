@@ -11,9 +11,6 @@ const AdminLogsPage = () => (
     <h1>Logs</h1>
 
     <div>Logs go here</div>
-
-    <Link to="/admin">Dash</Link>
-    <Link to="/admin/users">Logs</Link>
   </Layout>
 )
 
