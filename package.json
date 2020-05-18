@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "openmonetizationwallet",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Tools for managing a vanity Web Monetization wallet",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Kristian Freeman <k@bytesized.xyz>",
   "dependencies": {
     "gatsby": "^2.21.22",
     "gatsby-image": "^2.4.3",
@@ -26,13 +26,17 @@
   ],
   "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "gatsby:build": "gatsby build",
+    "gatsby:develop": "gatsby develop",
+    "gatsby:format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "gatsby:start": "npm run develop",
+    "gatsby:serve": "gatsby serve",
+    "gatsby:clean": "gatsby clean",
+    "gatsby:test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "workers:build": "wrangler build",
+    "workers:publish": "wrangler publish",
+    "build": "yarn run gatsby:build && yarn run workers:build",
+    "publish": "yarn run build && yarn run workers:publish"
   },
   "repository": {
     "type": "git",
