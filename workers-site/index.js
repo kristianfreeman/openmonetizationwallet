@@ -9,7 +9,6 @@ addEventListener('fetch', event => {
 })
 
 function pickPointer(pointers) {
-  console.log(Object.values(pointers)[0])
   const sum = Object.values(pointers).reduce((sum, { share }) => sum + share, 0)
   let choice = Math.random() * sum
 
@@ -38,9 +37,18 @@ async function handleEvent(event) {
 
     const walletKeys = Object.keys(wallets)
     const pickedWallet = pickPointer(wallets)
-    const { wallet } = pickedWallet
-    // weight/share calculation
+    const { id, wallet } = pickedWallet
+
+    const now = Date.now()
     // log chosen wallet
+    const log = {
+      referer: event.request.headers.get('Referer'),
+      timestamp: now,
+      wallet: id
+    }
+
+    await DB.put(`logs:${now}`, JSON.stringify(log))
+
     const walletUrl = new URL(`https://${wallet.startsWith('$') ? wallet.substring(1) : wallet}`)
     return Response.redirect(`${walletUrl}/.well-known/pay`)
   }
@@ -48,6 +56,16 @@ async function handleEvent(event) {
   if (url.pathname === "/api/users") {
     wallets = await DB.get("wallets")
     return new Response(wallets, { headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json'
+    } })
+  }
+
+  if (url.pathname === "/api/logs") {
+    const { keys: logKeys } = await DB.list({prefix: `logs:`})
+    const logs = await Promise.all(logKeys.map(async ({ name }) => JSON.parse(await DB.get(name))))
+
+    return new Response(JSON.stringify(logs), { headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json'
     } })

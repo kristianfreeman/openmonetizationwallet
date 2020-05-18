@@ -42,10 +42,14 @@ const AdminUsersPage = () => {
   const [editing, setEditing] = useState(false)
   const [editedUsers, setEditedUsers] = useState(null)
 
-  useEffect(async () => {
-    const resp = await fetch("http://localhost:8787/api/users")
-    const usersJson = await resp.json()
-    setUsers(usersJson)
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const resp = await fetch("http://localhost:8787/api/users")
+      const usersJson = await resp.json()
+      setUsers(usersJson)
+    }
+
+    fetchUsers()
   }, [])
 
   const userKeys = Object.keys(users)
