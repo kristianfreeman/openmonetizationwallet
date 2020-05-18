@@ -2,6 +2,10 @@ name = "openmonetizationwallet"
 type = "webpack"
 workers_dev = true
 
+kv-namespaces = [
+  { binding = "DB", id = "7034d14022064bcebaa513cf027b295d" }
+]
+
 [site]
 bucket = "./public"
 entry-point = "workers-site"

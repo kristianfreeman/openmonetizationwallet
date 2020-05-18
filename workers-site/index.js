@@ -13,7 +13,11 @@ async function handleEvent(event) {
 
   const acceptHeader = event.request.headers.get('Accept')
   if (url.pathname === "/" && acceptHeader.includes('application/spsp4+json')) {
-    const wallet = '$alice.com'
+    const wallets = await DB.get("wallets")
+    const walletKeys = Object.keys(wallets)
+    const { wallet } = wallet[walletsKeys[0]]
+    // weight/share calculation
+    // log chosen wallet
     const walletUrl = new URL(`https://${wallet.startsWith('$') ? wallet.substring(1) : wallet}`)
     return Response.redirect(`${walletUrl}/.well-known/pay`)
   }
