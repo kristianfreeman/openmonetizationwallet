@@ -113,7 +113,7 @@ const AdminUsersPage = () => {
 
       Object.keys(users).map(user => {
         if (users[user].id !== key) {
-          usersWithout[key] = users[key]
+          usersWithout[user] = users[user]
         }
       })
 
