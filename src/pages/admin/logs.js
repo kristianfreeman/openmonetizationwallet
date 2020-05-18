@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 
-import { Link } from 'gatsby'
+import { Link } from "gatsby"
 
 import Layout from "../../components/layout"
 import SEO from "../../components/seo"
 
-import { DateTime } from 'luxon'
+import { DateTime } from "luxon"
 
 const AdminLogsPage = () => {
   const [logs, setLogs] = useState([])
@@ -22,13 +22,24 @@ const AdminLogsPage = () => {
   return (
     <Layout>
       <SEO title="Admin" />
-      <h1>Logs</h1>
-
-      {logs.sort((log1, log2) => log1.timestamp < log2.timestamp).map(log =>
-        <div key={log.timestamp}>
-          {DateTime.fromMillis(log.timestamp).toLocaleString(DateTime.DATETIME_SHORT)} / {log.referer} / {log.wallet}
+      <header>
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl font-bold leading-tight text-gray-900">
+            Logs
+          </h1>
         </div>
-      )}
+      </header>
+
+      {logs
+        .sort((log1, log2) => log1.timestamp < log2.timestamp)
+        .map(log => (
+          <div key={log.timestamp}>
+            {DateTime.fromMillis(log.timestamp).toLocaleString(
+              DateTime.DATETIME_SHORT
+            )}{" "}
+            / {log.referer} / {log.wallet}
+          </div>
+        ))}
     </Layout>
   )
 }
