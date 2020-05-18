@@ -82,10 +82,7 @@ const AdminUsersPage = () => {
       setUsers(usersJson)
     }
 
-    // fetchUsers()
-
-    const stubUsers = {"fa4e46ed-1820-4a46-87b8-35b02da222bb":{"id":"fa4e46ed-1820-4a46-87b8-35b02da222bb","name":"@signalnerve","wallet":"$signalnerve.com","share":50},"0bf0fca6-4780-4314-97ef-e858dd42c047":{"id":"0bf0fca6-4780-4314-97ef-e858dd42c047","name":"@foobar","wallet":"$foo.com","share":50}}
-    setUsers(stubUsers)
+    fetchUsers()
   }, [])
 
   const userKeys = Object.keys(users)
