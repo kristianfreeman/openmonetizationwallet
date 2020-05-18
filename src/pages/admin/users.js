@@ -23,7 +23,7 @@ const UserForm = ({ onChange, user }) =>
       value={user.wallet} />
     <input
       name="share"
-      onChange={evt => onChange('share', evt.target.value)}
+      onChange={evt => onChange('share', Number(evt.target.value))}
       placeholder="Share (must add up to 100)"
       required
       type="number"
@@ -42,19 +42,10 @@ const AdminUsersPage = () => {
   const [editing, setEditing] = useState(false)
   const [editedUsers, setEditedUsers] = useState(null)
 
-  useEffect(() => {
-    // do stuff here on window init
-    // setUsers({})
-
-    const id = uuidv4()
-    setUsers({
-      [id]: {
-        id,
-        name: "@signalnerve",
-        wallet: "$signalnerve.com",
-        share: 100
-      }
-    })
+  useEffect(async () => {
+    const resp = await fetch("http://localhost:8787/api/users")
+    const usersJson = await resp.json()
+    setUsers(usersJson)
   }, [])
 
   const userKeys = Object.keys(users)
@@ -77,11 +68,21 @@ const AdminUsersPage = () => {
     setEditedUsers(newUsers)
   }
 
-  const save = evt => {
+  const save = async evt => {
     evt.preventDefault()
+
+    try {
+      await fetch("http://localhost:8787/admin/users", {
+        method: 'POST',
+        body: JSON.stringify(editedUsers)
+      })
+    } catch (err) {
+      console.log(err)
+    }
+
     setUsers(editedUsers)
-    setEditedUsers(null)
     setEditing(false)
+    setEditedUsers(null)
   }
 
   const addWallet = evt => {
