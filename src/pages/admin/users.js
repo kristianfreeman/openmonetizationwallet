@@ -108,10 +108,7 @@ const AdminUsersPage = () => {
       setUsers(usersJson)
     }
 
-    // fetchUsers()
-
-    const stubUsers = {"4a0a67e9-ce7e-420a-900c-2f39ec7e4e5f":{"id":"4a0a67e9-ce7e-420a-900c-2f39ec7e4e5f","name":"signalnerve","wallet":"$pay.stronghold.co/1a18de1caa7f60b417ab1cc4014aba17a36","share":100}}
-    setUsers(stubUsers)
+    fetchUsers()
   }, [])
 
   const userKeys = Object.keys(users)
@@ -165,7 +162,7 @@ const AdminUsersPage = () => {
     const shares = Object.values(editedUsers).map(u => u.share)
     const shareSum = shares.reduce((initial, share) => initial += share, 0)
     if (shareSum !== 100) {
-      setErrors([`Shares must add up to 100% (currently ${shareSum}%)`])
+      setErrors([`Shares must add up to 100% (currently ${shareSum})`])
       return false
     }
 
