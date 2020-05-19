@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react"
 import { Link } from "gatsby"
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
+import Instructions from "../components/instructions"
 import Layout from "../components/layout"
 import Log from "../components/log"
 import SEO from "../components/seo"
@@ -42,7 +43,7 @@ const AdminPage = () => {
   return (
     <Layout>
       <SEO title="Dashboard" />
-      <header>
+      <header className="mb-12">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold leading-tight text-gray-900">
             Dashboard
@@ -50,18 +51,16 @@ const AdminPage = () => {
         </div>
       </header>
 
+      <Instructions logs={logs} users={users} />
+
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Your Wallet Information
+      </h3>
+
       <div class="bg-white shadow sm:rounded-lg mt-6">
         <div class="px-4 py-5 sm:p-6">
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            ✅ Your Open Monetization Wallet is successfully configured
-          </h3>
-          <div class="mt-2 sm:flex flex-col sm:items-start sm:justify-between">
-            <div class="max-w-xl text-sm leading-5 text-gray-500">
-              <p>
-                You can begin using your Open Monetization Wallet URL to accept payments with the Web Monetization API!
-              </p>
-            </div>
-            <div class="py-5 w-full">
+          <div class="sm:flex flex-col sm:items-start sm:justify-between">
+            <div class="pb-5 w-full">
               <div class="rounded-md bg-gray-50 px-6 py-5 sm:flex sm:items-start sm:justify-between">
                 <div class="sm:flex sm:items-start">
                   🔗
