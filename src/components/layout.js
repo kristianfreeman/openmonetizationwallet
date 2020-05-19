@@ -30,17 +30,17 @@ const Layout = ({ children }) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                {/* <img
+                <img
                   className="block lg:hidden h-8 w-auto"
-                  src="/img/logos/workflow-mark-on-white.svg"
-                  alt="Workflow logo"
+                  src="/logo.svg"
+                  alt="Open Monetization Wallet"
                 />
                 <img
                   className="hidden lg:block h-8 w-auto"
-                  src="/img/logos/workflow-logo-on-white.svg"
-                  alt="Workflow logo"
-                /> */}
-                Open Monetization Wallet
+                  src="/logo.svg"
+                  alt="Open Monetization Wallet"
+                />
+                <span className="ml-2 font-bold text-green-500 text-sm">Open Monetization Wallet</span>
               </div>
               <div className="hidden sm:-my-px sm:ml-6 sm:flex">
                 <Link
