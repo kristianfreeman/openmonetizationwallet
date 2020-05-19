@@ -17,6 +17,7 @@ const Layout = ({ children, location }) => {
       site {
         siteMetadata {
           title
+          version
         }
       }
     }
@@ -40,6 +41,14 @@ const Layout = ({ children, location }) => {
                   alt="Open Monetization Wallet"
                 />
                 <span className="ml-2 font-bold text-green-500 text-sm">Open Monetization Wallet</span>
+                <a
+                  className="bg-gray-200 p-1 rounded font-mono ml-2 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                  href="https://github.com/signalnerve/openmonetizationwallet"
+                  target="_blank"
+                  title={`Open Monetization Wallet version: ${data.site.siteMetadata.version}`}
+                >
+                  v.{data.site.siteMetadata.version.slice(0, 5)}
+                </a>
               </div>
               <div className="hidden sm:-my-px sm:ml-6 sm:flex">
                 <Link

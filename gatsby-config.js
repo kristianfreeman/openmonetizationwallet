@@ -3,6 +3,7 @@ module.exports = {
     title: `Open Monetization Wallet`,
     description: `Tools for managing a vanity Web Monetization wallet`,
     author: `@signalnerve`,
+    version: process.env && process.env.OMW_VERSION ? process.env.OMW_VERSION : 'development'
   },
   plugins: [
     `gatsby-plugin-postcss`,
