@@ -7,6 +7,31 @@ import SEO from "../../components/seo"
 
 import { v4 as uuidv4 } from "uuid"
 
+const Errors = ({ errors = [] }) => {
+  return (
+    <div className="rounded-md bg-red-50 p-4">
+      <div className="flex">
+        <div className="flex-shrink-0">
+          <svg className="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div className="ml-3">
+          <h3 className="text-sm leading-5 font-medium text-red-800">
+            There was {errors.length > 1 ? `${errors.length} errors` : 'one error'} with your submission
+          </h3>
+          <div className="mt-2 text-sm leading-5 text-red-700">
+            <ul className="list-disc pl-5">
+              {errors.map((err, index) =>
+                <li className={index > 0 ? 'mt-1' : ''} key={index}>{err}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 const UserForm = ({ onChange, user }) => (
   <tr>
     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
@@ -74,6 +99,7 @@ const AdminUsersPage = () => {
   const [users, setUsers] = useState({})
   const [editing, setEditing] = useState(false)
   const [editedUsers, setEditedUsers] = useState(null)
+  const [errors, setErrors] = useState([])
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -82,7 +108,10 @@ const AdminUsersPage = () => {
       setUsers(usersJson)
     }
 
-    fetchUsers()
+    // fetchUsers()
+
+    const stubUsers = {"4a0a67e9-ce7e-420a-900c-2f39ec7e4e5f":{"id":"4a0a67e9-ce7e-420a-900c-2f39ec7e4e5f","name":"signalnerve","wallet":"$pay.stronghold.co/1a18de1caa7f60b417ab1cc4014aba17a36","share":100}}
+    setUsers(stubUsers)
   }, [])
 
   const userKeys = Object.keys(users)
@@ -133,6 +162,15 @@ const AdminUsersPage = () => {
   const save = async evt => {
     evt.preventDefault()
 
+    const shares = Object.values(editedUsers).map(u => u.share)
+    const shareSum = shares.reduce((initial, share) => initial += share, 0)
+    if (shareSum !== 100) {
+      setErrors([`Shares must add up to 100% (currently ${shareSum}%)`])
+      return false
+    }
+
+    setErrors([])
+
     try {
       await fetch("/admin/users", {
         method: "POST",
@@ -176,6 +214,7 @@ const AdminUsersPage = () => {
       </header>
 
       <div class="flex flex-col py-6">
+        {errors.length ? <Errors errors={errors} /> : null}
         <div class="-my-2 py-2">
           <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
             <table class="min-w-full">
@@ -188,7 +227,7 @@ const AdminUsersPage = () => {
                     Wallet
                   </th>
                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                    Share
+                    Share Percentage
                   </th>
                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
                 </tr>
