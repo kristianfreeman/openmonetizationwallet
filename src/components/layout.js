@@ -47,7 +47,7 @@ const Layout = ({ children, location }) => {
                   target="_blank"
                   title={`Open Monetization Wallet version: ${data.site.siteMetadata.version}`}
                 >
-                  v.{data.site.siteMetadata.version.slice(0, 5)}
+                  v.{data.site.siteMetadata.version.slice(0, 7)}
                 </a>
               </div>
               <div className="hidden sm:-my-px sm:ml-6 sm:flex">
