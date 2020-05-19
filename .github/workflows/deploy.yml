@@ -15,10 +15,11 @@ jobs:
         run: 'yarn install'
       - name: Build app
         run: 'yarn run gatsby:build'
+        env:
+          OMW_VERSION: ${{ github.sha }}
       - name: Publish
         uses: cloudflare/wrangler-action@master
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          OMW_VERSION: ${{ github.sha }}
