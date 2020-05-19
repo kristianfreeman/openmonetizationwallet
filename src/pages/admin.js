@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 
 import { Link } from "gatsby"
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 import Layout from "../components/layout"
 import Log from "../components/log"
@@ -10,6 +11,7 @@ const AdminPage = () => {
   const [logs, setLogs] = useState([])
   const [users, setUsers] = useState({})
   const [walletUrl, setWalletUrl] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -30,6 +32,12 @@ const AdminPage = () => {
 
     setWalletUrl(`$${window.location.host}`)
   }, [])
+
+  useEffect(() => {
+    if (copied) {
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }, [copied])
 
   return (
     <Layout>
@@ -70,12 +78,19 @@ const AdminPage = () => {
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-6 sm:flex-shrink-0">
                   <span class="inline-flex rounded-md shadow-sm">
-                    <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
-                      Copy URL
-                    </button>
+                    <CopyToClipboard onCopy={() => setCopied(true)} text={walletUrl}>
+                      <button class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150">
+                        {copied ? 'Copied' : 'Copy URL'}
+                      </button>
+                    </CopyToClipboard>
                   </span>
                 </div>
               </div>
+            </div>
+            <div class="max-w-xl text-sm leading-5 text-gray-500">
+              <p>
+                For help generating a meta tag for embedding with your content, check out the <a className="text-indigo-600 hover:text-indigo-500 transition ease-in-out duration-150" href="https://webmonetization.org/meta-tag" target="_blank">Meta Tag Generator</a>.
+              </p>
             </div>
           </div>
         </div>
