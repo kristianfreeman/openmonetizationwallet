@@ -58,7 +58,7 @@ async function handleEvent(event) {
     const walletUrl = new URL(
       `https://${wallet.startsWith("$") ? wallet.substring(1) : wallet}`
     )
-    return Response.redirect(`${walletUrl}/.well-known/pay`)
+    return Response.redirect(walletUrl)
   } else if (url.pathname === "/") {
     return new Response("OK")
   }
