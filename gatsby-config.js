@@ -8,25 +8,18 @@ module.exports = {
   plugins: [
     `gatsby-plugin-postcss`,
     `gatsby-plugin-react-helmet`,
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
-      },
-    },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
-        start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        name: `open-monetization-wallet`,
+        short_name: `omw`,
+        start_url: `/admin`,
+        background_color: `#22543D`,
+        theme_color: `#22543D`,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `static/logo.png`, // This path is relative to the root of the site.
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
