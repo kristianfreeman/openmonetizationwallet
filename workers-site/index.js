@@ -57,6 +57,8 @@ async function handleEvent(event) {
       `https://${wallet.startsWith("$") ? wallet.substring(1) : wallet}`
     )
     return Response.redirect(`${walletUrl}/.well-known/pay`)
+  } else if (url.pathname === "/") {
+    return new Response("OK")
   }
 
   if (url.pathname === "/admin" && event.request.method === "POST") {
