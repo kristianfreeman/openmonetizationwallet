@@ -2,7 +2,7 @@
   "name": "openmonetizationwallet",
   "private": true,
   "description": "Tools for managing a vanity Web Monetization wallet",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Kristian Freeman <k@bytesized.xyz>",
   "dependencies": {
     "@tailwindcss/ui": "^0.3.0",
@@ -35,7 +35,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "gatsby:build": "gatsby build",
+    "gatsby:build": "OMW_VERSION=\"$(cat package.json | jq -r .version)\" gatsby build",
     "gatsby:develop": "gatsby develop",
     "gatsby:format": "prettier --write \"**/*.{js,jsx,json,md}\"",
     "gatsby:start": "npm run develop",

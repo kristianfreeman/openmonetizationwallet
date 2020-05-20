@@ -13,15 +13,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Yarn install
         run: 'yarn install'
-      - name: "Set OMW version"
-        id: version
-        run: |
-          export VERSION="$(cat package.json | jq .version)"
-          echo "::set-output name=version::$VERSION"
       - name: Build app
         run: 'yarn run gatsby:build'
-        env:
-          OMW_VERSION: ${{ steps.version.outputs.version }}
       - name: Publish
         uses: cloudflare/wrangler-action@master
         with:
