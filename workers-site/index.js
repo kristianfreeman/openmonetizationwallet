@@ -4,6 +4,8 @@ import qs from "qs"
 
 import loginPage from "./login"
 
+const demoInstance = (typeof DEMO !== "undefined") ? DEMO : false
+
 addEventListener("fetch", event => {
   try {
     event.respondWith(handleEvent(event))
@@ -63,36 +65,38 @@ async function handleEvent(event) {
     return new Response("OK")
   }
 
-  if (url.pathname === "/admin" && event.request.method === "POST") {
-    const text = await event.request.text()
-    const body = qs.parse(text)
+  if (!demoInstance) {
+    if (url.pathname === "/admin" && event.request.method === "POST") {
+      const text = await event.request.text()
+      const body = qs.parse(text)
 
-    if (!body.admin_secret) {
-      return new Response("Unauthorized", { status: 401 })
-    }
+      if (!body.admin_secret) {
+        return new Response("Unauthorized", { status: 401 })
+      }
 
-    const secretToCheck = body.admin_secret
-    if (secretToCheck === ADMIN_SECRET) {
-      const date = new Date()
-      // Expires in three days
-      date.setDate(date.getDate() + 3)
-      return new Response(
-        `<script type="text/javascript">window.location = "${url}"</script>Login successful, redirecting...`,
-        {
-          headers: {
-            "Content-type": "text/html",
-            "Set-Cookie": `Authorization=${secretToCheck}; Secure; HttpOnly; SameSite=Lax; Expires=${date.toUTCString()}`,
-          },
-        }
-      )
-    } else {
-      return new Response("Unauthorized", { status: 401 })
-    }
-  } else if (url.pathname.includes("/admin")) {
-    const cookies = cookie.parse(event.request.headers.get("Cookie"))
-    const authCookie = cookies["Authorization"]
-    if (authCookie !== ADMIN_SECRET) {
-      return loginPage()
+      const secretToCheck = body.admin_secret
+      if (secretToCheck === ADMIN_SECRET) {
+        const date = new Date()
+        // Expires in three days
+        date.setDate(date.getDate() + 3)
+        return new Response(
+          `<script type="text/javascript">window.location = "${url}"</script>Login successful, redirecting...`,
+          {
+            headers: {
+              "Content-type": "text/html",
+              "Set-Cookie": `Authorization=${secretToCheck}; Secure; HttpOnly; SameSite=Lax; Expires=${date.toUTCString()}`,
+            },
+          }
+        )
+      } else {
+        return new Response("Unauthorized", { status: 401 })
+      }
+    } else if (url.pathname.includes("/admin")) {
+      const cookies = cookie.parse(event.request.headers.get("Cookie"))
+      const authCookie = cookies["Authorization"]
+      if (authCookie !== ADMIN_SECRET) {
+        return loginPage()
+      }
     }
   }
 
@@ -122,8 +126,10 @@ async function handleEvent(event) {
 
   if (url.pathname === "/admin/users" && event.request.method === "POST") {
     const walletBody = await event.request.json()
-    // TODO: may want to delete/re-put to bust this cache
-    await DB.put("wallets", JSON.stringify(walletBody))
+    if (!demoInstance) {
+      // TODO: may want to delete/re-put to bust this cache
+      await DB.put("wallets", JSON.stringify(walletBody))
+    }
     return new Response(null, {
       status: 204,
       headers: {

@@ -15,6 +15,13 @@ jobs:
         run: 'yarn install'
       - name: Build app
         run: 'yarn run gatsby:build'
+      - name: Publish (demo)
+        uses: cloudflare/wrangler-action@master
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          environment: demo
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
       - name: Publish
         uses: cloudflare/wrangler-action@master
         with:

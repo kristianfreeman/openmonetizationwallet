@@ -10,6 +10,13 @@ kv-namespaces = [
 bucket = "./public"
 entry-point = "workers-site"
 
+[env.demo]
+name = "omw-demo"
+vars = { DEMO = true }
+kv-namespaces = [
+  { binding = "DB", id = "2aedb635af274ff2806d60671719d58e" }
+]
+
 [env.development]
 kv-namespaces = [
   { binding = "DB", id = "7034d14022064bcebaa513cf027b295d" }
