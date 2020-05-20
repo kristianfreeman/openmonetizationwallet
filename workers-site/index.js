@@ -43,13 +43,12 @@ async function handleEvent(event) {
       return new Response("Not found", { status: 404 })
     }
 
-    const walletKeys = Object.keys(wallets)
     const pickedWallet = pickPointer(wallets)
     const { id, wallet } = pickedWallet
 
     const now = Date.now()
     const log = {
-      referer: event.request.headers.get("Referer"),
+      cf: event.cf,
       timestamp: now,
       wallet: id,
     }

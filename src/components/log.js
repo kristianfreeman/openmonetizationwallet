@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import { DateTime } from "luxon"
 
 export default ({ log }) => (
@@ -12,13 +12,11 @@ export default ({ log }) => (
     </td>
     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
       <div class="text-sm leading-5 text-gray-900">
-        {log.referer}
+        {log.cf ? log.cf.country : ""}
       </div>
     </td>
     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-      <div class="text-xs leading-5 text-gray-900">
-        {log.wallet}
-      </div>
+      <div class="text-xs leading-5 text-gray-900">{log.wallet}</div>
     </td>
   </tr>
 )
