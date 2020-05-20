@@ -9,3 +9,5 @@ kv-namespaces = [
 [site]
 bucket = "./public"
 entry-point = "workers-site"
+
+[env.development]

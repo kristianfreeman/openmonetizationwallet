@@ -49,7 +49,9 @@ const AdminLogsPage = () => {
               <tbody class="bg-white">
                 {logs
                   .sort((log1, log2) => log1.timestamp < log2.timestamp)
-                  .map(log => <Log log={log} />)}
+                  .map(log => (
+                    <Log log={log} />
+                  ))}
               </tbody>
             </table>
           </div>

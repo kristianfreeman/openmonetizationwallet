@@ -1,4 +1,8 @@
 import { getAssetFromKV, mapRequestToAsset } from "@cloudflare/kv-asset-handler"
+import cookie from "cookie"
+import qs from "qs"
+
+import loginPage from "./login"
 
 addEventListener("fetch", event => {
   try {
@@ -21,6 +25,7 @@ function pickPointer(pointers) {
 }
 
 async function handleEvent(event) {
+  let response = new Response(null)
   const url = new URL(event.request.url)
   const acceptHeader = event.request.headers.get("Accept")
 
@@ -40,7 +45,6 @@ async function handleEvent(event) {
     const { id, wallet } = pickedWallet
 
     const now = Date.now()
-    // log chosen wallet
     const log = {
       referer: event.request.headers.get("Referer"),
       timestamp: now,
@@ -53,6 +57,39 @@ async function handleEvent(event) {
       `https://${wallet.startsWith("$") ? wallet.substring(1) : wallet}`
     )
     return Response.redirect(`${walletUrl}/.well-known/pay`)
+  }
+
+  if (url.pathname === "/admin" && event.request.method === "POST") {
+    const text = await event.request.text()
+    const body = qs.parse(text)
+
+    if (!body.admin_secret) {
+      return new Response("Unauthorized", { status: 401 })
+    }
+
+    const secretToCheck = body.admin_secret
+    if (secretToCheck === ADMIN_SECRET) {
+      const date = new Date()
+      // Expires in three days
+      date.setDate(date.getDate() + 3)
+      return new Response(
+        `<script type="text/javascript">window.location = "${url}"</script>Login successful, redirecting...`,
+        {
+          headers: {
+            "Content-type": "text/html",
+            "Set-Cookie": `Authorization=${secretToCheck}; Secure; HttpOnly; SameSite=Lax; Expires=${date.toUTCString()}`,
+          },
+        }
+      )
+    } else {
+      return new Response("Unauthorized", { status: 401 })
+    }
+  } else if (url.pathname.includes("/admin")) {
+    const cookies = cookie.parse(event.request.headers.get("Cookie"))
+    const authCookie = cookies["Authorization"]
+    if (authCookie !== ADMIN_SECRET) {
+      return loginPage()
+    }
   }
 
   if (url.pathname === "/api/users") {
@@ -92,7 +129,7 @@ async function handleEvent(event) {
   }
 
   try {
-    return await getAssetFromKV(event)
+    return getAssetFromKV(event)
   } catch (e) {
     return new Response(e.message || e.toString(), { status: 500 })
   }

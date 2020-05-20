@@ -12,18 +12,31 @@ const Errors = ({ errors = [] }) => {
     <div className="rounded-md bg-red-50 p-4">
       <div className="flex">
         <div className="flex-shrink-0">
-          <svg className="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          <svg
+            className="h-5 w-5 text-red-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
           </svg>
         </div>
         <div className="ml-3">
           <h3 className="text-sm leading-5 font-medium text-red-800">
-            There was {errors.length > 1 ? `${errors.length} errors` : 'one error'} with your submission
+            There was{" "}
+            {errors.length > 1 ? `${errors.length} errors` : "one error"} with
+            your submission
           </h3>
           <div className="mt-2 text-sm leading-5 text-red-700">
             <ul className="list-disc pl-5">
-              {errors.map((err, index) =>
-                <li className={index > 0 ? 'mt-1' : ''} key={index}>{err}</li>)}
+              {errors.map((err, index) => (
+                <li className={index > 0 ? "mt-1" : ""} key={index}>
+                  {err}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -88,7 +101,11 @@ const User = ({ deleteUser, user }) => (
       {user.share}%
     </td>
     <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
-      <a href="#" class="text-red-600 hover:text-red-900" onClick={() => deleteUser(user.id) }>
+      <a
+        href="#"
+        class="text-red-600 hover:text-red-900"
+        onClick={() => deleteUser(user.id)}
+      >
         Delete
       </a>
     </td>
@@ -160,7 +177,7 @@ const AdminUsersPage = () => {
     evt.preventDefault()
 
     const shares = Object.values(editedUsers).map(u => u.share)
-    const shareSum = shares.reduce((initial, share) => initial += share, 0)
+    const shareSum = shares.reduce((initial, share) => (initial += share), 0)
     if (shareSum !== 100) {
       setErrors([`Shares must add up to 100% (currently ${shareSum})`])
       return false
@@ -238,13 +255,13 @@ const AdminUsersPage = () => {
                         user={editedUsers[key]}
                       />
                     ))
-                  : userKeys.map(key =>
+                  : userKeys.map(key => (
                       <User
                         deleteUser={deleteUser.bind(this)}
                         key={key}
                         user={users[key]}
                       />
-                    )}
+                    ))}
               </tbody>
             </table>
           </div>
