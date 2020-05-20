@@ -48,7 +48,7 @@ async function handleEvent(event) {
 
     const now = Date.now()
     const log = {
-      cf: event.cf,
+      metadata: event.cf,
       timestamp: now,
       wallet: id,
     }
