@@ -31,7 +31,10 @@ async function handleEvent(event) {
 
   let wallets
 
-  if (url.pathname === "/" && acceptHeader.includes("application/spsp4+json")) {
+  if (
+    ["/", "/.well-known/pay"].includes(url.pathname) &&
+    acceptHeader.includes("application/spsp4+json")
+  ) {
     const walletData = await DB.get("wallets")
     wallets = walletData ? JSON.parse(walletData) : {}
 
