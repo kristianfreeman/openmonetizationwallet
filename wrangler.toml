@@ -11,3 +11,6 @@ bucket = "./public"
 entry-point = "workers-site"
 
 [env.development]
+kv-namespaces = [
+  { binding = "DB", id = "7034d14022064bcebaa513cf027b295d" }
+]
