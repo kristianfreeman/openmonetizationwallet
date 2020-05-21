@@ -1,6 +1,14 @@
-name = "openmonetizationwallet"
+# This wrangler.toml has been configured as an example of a production-ready
+# wrangler.toml, and is also used to deploy the "demo" instance of OMW
+# seen in the README/documentation.
+#
+# You should replace this with the contents of `wrangler.toml.example`:
+#
+# cp wrangler.toml.example wrangler.toml
+
+name = "openmonetizationwallet-production"
 type = "webpack"
-workers_dev = true
+workers_dev = false
 
 zone_id = "b6e4c59655bb1e7d3d49419fa667ae53"
 route = "wallet.signalnerve.com/*"
@@ -15,6 +23,7 @@ entry-point = "workers-site"
 # Demo instance used for deploying example wallet
 [env.demo]
 name = "omw-demo"
+workers_dev = true
 vars = { DEMO = true }
 kv-namespaces = [
   { binding = "DB", id = "2aedb635af274ff2806d60671719d58e" }

@@ -20,12 +20,12 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           environment: demo
+        if: ${{ github.repository == "signalnerve/openmonetizationwallet" }}
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
       - name: Publish
         uses: cloudflare/wrangler-action@master
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
-          environment: production
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
