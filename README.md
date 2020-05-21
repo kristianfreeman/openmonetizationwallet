@@ -14,7 +14,7 @@ Open Monetization Wallet (OMW) makes it easier to accept payments with the Web M
 - Infinitely scalable with serverless technology
 - Free and open-source
 
-![Example](./github/example.png)
+![Example](./.github/example.png)
 
 ## Prerequisites
 
