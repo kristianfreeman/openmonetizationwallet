@@ -1,0 +1,45 @@
+# Open Monetization Wallet: Example wrangler.toml
+#
+# This file should replace `wrangler.toml` before you're able to deploy
+# your OMW instance:
+#
+# cp wrangler.toml.example wrangler.toml
+#
+# See the README for more instructions on how to fill out this file!
+
+# The name of your application - by default, this will
+# be part of your OMW instance's URL, such as:
+#
+# openmonetizationwallet.signalnerve.workers.dev
+#
+# If you'd like to serve your wallet at a different URL (e.g. "wallet"),
+# change this value to your desired name
+name = "openmonetizationwallet"
+
+# Create a new KV namespace following the "Configuration" section of the README,
+# and replace $BINDING_ID with your unique KV namespace ID below.
+kv-namespaces = [
+  { binding = "DB", id = "$BINDING_ID" }
+]
+
+# By default, OMW will deploy to your workers.dev instance,
+# allowing you to use it without needing to own a custom domain.
+# The below line must be uncommented for this to work!
+workers_dev = true
+
+# If deploying to a custom route, uncomment the below code and fill
+# out `zone_id` and `route` according to the README instructions in
+# the "Custom domain" section of "Deploying".
+#
+# zone_id = ""
+# route = "mycustomdomain.com/*"
+
+# The below contents shouldn't be changed unless you know what you're doing!
+#
+# Deploy the contents of Gatsby's built-out `public` folder on `wrangler publish`
+[site]
+bucket = "./public"
+entry-point = "workers-site"
+
+# Builds the project using webpack.
+type = "webpack"
