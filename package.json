@@ -2,7 +2,7 @@
   "name": "openmonetizationwallet",
   "private": true,
   "description": "Tools for managing a vanity Web Monetization wallet",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Kristian Freeman <k@bytesized.xyz>",
   "dependencies": {
     "@tailwindcss/ui": "^0.3.0",
