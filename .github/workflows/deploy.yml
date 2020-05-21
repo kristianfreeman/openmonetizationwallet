@@ -20,9 +20,9 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           environment: demo
-        if: ${{ github.repository == "signalnerve/openmonetizationwallet" }}
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        if: ${{ github.repository == 'signalnerve/openmonetizationwallet' }}
       - name: Publish
         uses: cloudflare/wrangler-action@master
         with:
